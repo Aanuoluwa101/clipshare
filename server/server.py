@@ -96,10 +96,10 @@ class Server:
             self.client_socket.send(clipboard.encode('utf-8'))
             print("sending clipboard")
 
-            response = self.client_socket.recv(1024).decode('utf-8')
-            if response == Server.OK:
-                print(f"response from client: {response}")
-                self.state.server.clipboard.update_clipboard(clipboard, Clipboard.SENT)
+            # response = self.client_socket.recv(1024).decode('utf-8')
+            # if response == Server.OK:
+            #     print(f"response from client: {response}")
+            self.state.server.clipboard.update_clipboard(clipboard, Clipboard.SENT)
         except TimeoutError:
             #######
             self.state.error_message = "Operation timed out"
@@ -111,7 +111,7 @@ class Server:
             client_clipboard = self.client_socket.recv(1024).decode('utf-8')
             #print("checking condition")
             if client_clipboard:
-                self.client_socket.send(Server.OK.encode('utf-8'))
+                #self.client_socket.send(Server.OK.encode('utf-8'))
                 # pyperclip.copy(client_clipboard) #THIS IS VALID....
                 self.state.server.clipboard.update_clipboard(client_clipboard, Clipboard.RECEIVED)
                 pyperclip.copy(client_clipboard)
