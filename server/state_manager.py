@@ -1,4 +1,4 @@
-from ipconfig import get_wifi_config_details
+from utils import get_one_wifi_config
 import threading
 from server import server
 
@@ -10,10 +10,10 @@ def state_manager(state):
             print("exiting state manager")
             break
 
-        state.gateway = get_wifi_config_details("gateway")
+        state.gateway = get_one_wifi_config("gateway")
         #if there is wifi and server is not running, start it
         if state.gateway and not state.server.is_running:      
-            state.server.address = get_wifi_config_details("ip")
+            state.server.address = get_one_wifi_config("ip")
             print("starting server")
             server_thread = threading.Thread(target=server, args=(state,))
             server_thread.start()

@@ -1,3 +1,5 @@
+"""Defines the UI class"""
+
 from tkinter import *
 import tkinter as tk
 import pyperclip
@@ -20,6 +22,11 @@ CONNECT = "Connect"
 
 class UI:
     def __init__(self, state):
+        """Initializes a UI instance
+        
+        Parameters:
+        state (State): a state instance containing app data
+        """
         self.state = state
         self.root = Tk()
         self.root.title("Clipshare-Client")
@@ -34,20 +41,13 @@ class UI:
 
         self.error_msg_update_count = 0
 
-
-    def start(self):
-        self.update()
-        self.root.mainloop()
-
-    # if the offline button is clicked, show "connect to a wifi"
     def update(self):
+        """Updates all components of the UI with the app's current state"""
         try:
-
-            #Header 
+            #HEADER
             #client name
             self.header.client_name.config(text=self.state.client.name)
 
-            # if state.client.is_online and state.client.is_connected:
             #connect button
             if self.state.client.is_connected:
                 connect_button_text = DISCONNECT
@@ -57,12 +57,10 @@ class UI:
                 connect_button_text = CONNECT
             self.header.connect_button.config(text=connect_button_text)
             
-
-            #Body
+            #BODY      
             #error message
             self.body.error_message.config(text=self.state.error_message)
-            #print(self.state.error_message)
-            if self.error_msg_update_count == 3:
+            if self.error_msg_update_count == 5:
                 self.error_msg_update_count = 0
                 self.state.error_message = ""
             self.error_msg_update_count += 1
@@ -73,19 +71,17 @@ class UI:
                 self.state.client.clipboard.update_clipboard(clipboard)
                 self.state.client.clipboard.local = clipboard
 
-            #print(f"client send_state in UI file after update is '{self.state.client.clipboard.send_state}")
             self.body.clipboard.delete("1.0", tk.END)
             self.body.clipboard.insert("1.0", self.state.client.clipboard.content)
 
             #clipboard_state
             self.body.clipboard_state.config(text=self.state.client.clipboard.send_state)
 
-            #Footer
+            #FOOTER
             #gateway (wifi)
             self.footer.gateway.config(text=f"Wifi {self.state.gateway}")
 
             #client state
-            #we probably need to acquire a lock here
             if not self.state.client.is_online:
                 client_state = OFFLINE
             elif self.state.client.is_connected:
@@ -98,17 +94,16 @@ class UI:
             print(e)
             pass
         finally:
-            #print("update")
             self.root.after(300, self.update) 
 
-
     def on_close(self):
+        """Callback function for closing the UI"""
         self.state.exit_signal.set()
         self.root.destroy()
         time.sleep(3)
 
     def send_clipboard(self):
-        #if self.state.client.clipboard.send_state == "New" and self.state.client.is_connected:
+        """Callback function for sending the clipboard"""
         if self.state.client.is_connected:
             self.state.send_signal.set()
         elif self.state.client.is_online and not self.state.client.is_connected:
@@ -117,13 +112,10 @@ class UI:
             print("cannot send clipboard now")
             self.state.error_message = "Offline. Connect to a wifi"
 
-            
-
     def connect(self):
+        """Callback function for connecting to the server"""
         if not self.state.client.is_connected and self.state.client.is_online:
-            #base_ip = self
             result = self.connect_popup(self.state.client.base_ip)
-            #print(ip)
             if not result:
                 return
             elif not is_valid_ip(result[0]):
@@ -142,12 +134,26 @@ class UI:
             self.state.error_message = "Offline. Connect to a wifi"
         else:
             self.state.shutdown_signal.set()
-
-
-    # def connect_popup(self, base_ip):
-    #     user_input = simpledialog.askstring("Server IP", "Enter Server's IP:", initialvalue=base_ip)
-    #     return user_input
     
     def connect_popup(self, base_ip):
+        """Creates a custom connect dialog box
+        
+        Parameters:
+        base_ip (str): the base IP address
+        """
         dialog_box =  CustomDialog(self.root, base_ip)
         return dialog_box.result
+    
+    def start(self):
+        """Starts the UI"""
+        self.update()
+        self.root.mainloop()
+
+
+def start_ui(state):
+    """Function to be run by the state manager as the UI thread"""
+    ui = UI(state)
+    ui.start()
+
+
+

@@ -1,7 +1,14 @@
+"""Defines the Header class"""
+
 import tkinter as tk
 
 class Header:
     def __init__(self, root, connect):
+        """Initializes a Header instance
+        
+        root (tk.TK): the root element of the UI
+        connect: callback function for the connect button
+        """
         header_frame = tk.Frame(root, bg="#2c3e4c", padx=3, pady=5)
         header_frame.pack(fill=tk.X)
 

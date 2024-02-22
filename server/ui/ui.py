@@ -118,3 +118,8 @@ class UI:
             self.state.error_message = "Offline! Connect to a wifi"
         # elif self.state.server.is_connected:
         #     self.state.error_message = "Cannot show details while connected"
+
+def start_ui(state):
+    """Function to be run by the state manager as the UI thread"""
+    ui = UI(state)
+    ui.start()

@@ -1,3 +1,6 @@
+"""Defines the Client class, which represents the client-side functionality of the app
+"""
+
 import socket 
 import pyperclip
 import threading
@@ -11,6 +14,11 @@ class Client:
     PORT = 12345
 
     def __init__(self, state):
+        """initializes the Client instance
+
+           Parameters:
+           state (State): a State object (data store of the application)     
+        """
         self.state = state
         
         if self.state.shutdown_signal.is_set():
@@ -25,6 +33,7 @@ class Client:
             exit(1)
 
     def authenticate(self):
+        """Authenticates the client with the server during the connection process"""
         #entered during connect
         print("authenticating")
         server_passcode = self.state.server.passcode
@@ -44,6 +53,7 @@ class Client:
             self.shutdown()
 
     def connect(self):
+        """Establishes a connection between the client and the server"""
         if self.state.shutdown_signal.is_set():
             self.shutdown()
         try:
@@ -61,13 +71,14 @@ class Client:
             self.state.error_message = "connection timed out"
             self.shutdown()
         except (ConnectionRefusedError, Exception) as e:
-            self.state.error_message = "Unable to reach server. \n Ensure server is started and in thesame network with client"
+            self.state.error_message = "Unable to reach server! \n Ensure server is started and in same network with client"
             self.shutdown()
         finally:
             self.state.client.is_connecting = False
         
 
     def send_clipboard(self):
+        """Sends the client's clipboard content to the server"""
         clipboard = self.state.client.clipboard.content
         self.socket.send(clipboard.encode('utf-8'))
 
@@ -86,6 +97,7 @@ class Client:
         
 
     def receive_clipboard(self):
+        """Receives the server's clipboard content"""
         try:
             server_clipboard = self.socket.recv(1024).decode('utf-8')
             if server_clipboard:
@@ -104,6 +116,8 @@ class Client:
             #raise e
         
     def share_clipboard(self):
+        """Continuously shares the clipboard content either by 
+           sending or receiving based on the state of the send_signal"""
         self.socket.settimeout(2)
         while True:
             try:
@@ -118,31 +132,28 @@ class Client:
                 self.shutdown()
     
     def run(self):
+        """Main method orchestrating the client's functionality"""
         if self.state.shutdown_signal.is_set():
             self.shutdown()
         try:
             # Connect to server
             self.connect()
             print("connected")
-            self.state.client.is_connected = True
-            
-            #print("sharing clipboard")
+            self.state.client.is_connected = True 
+            #share clipboard          
             self.share_clipboard()
-        #COMBINE THESE ERRORS PLEASE
         except ConnectionError:
-            #print("server closed connection")
             self.shutdown()
-
         except socket.error:
             print("socket error")
-            self.shutdown()
-            
-        #for testing purposes only
+            self.shutdown()           
         except KeyboardInterrupt:
+            #for testing purposes only
             self.shutdown()
 
 
     def shutdown(self):
+        """Gracefully shuts down the client"""
         self.socket.close()
         self.state.shutdown_signal.clear()
         self.state.connect_signal.clear()
@@ -150,7 +161,9 @@ class Client:
         print("shutting down gracefully")
         exit(0)
 
+
 def client(state):
+    """Function to be run by the state manager as the client thread"""
     state.connect_signal.clear()
     client = Client(state)
     client.run()
@@ -158,10 +171,10 @@ def client(state):
     
 
 
-from ipconfig import get_wifi_config_details
 if __name__ == "__main__":
+    from utils import get_one_wifi_config
     state = State()
-    state.server.address = get_wifi_config_details("ip")
+    state.server.address = get_one_wifi_config("ip")
 
     send_signal = threading.Event()
     state.shutdown_signal = threading.Event()

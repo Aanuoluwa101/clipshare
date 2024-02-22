@@ -1,8 +1,11 @@
-from clipboard import Clipboard
+"""
+Defines the ServerInfo class which encapsulates server information
+"""
 
 
 class ServerInfo:
     def __init__(self):
+        """Instantiates a ServerInfo object"""
         self.address = None
         self.name = None
         

@@ -1,7 +1,7 @@
 import socket 
 import pyperclip
 from state import State
-from passcode import generate_passcode
+from utils import generate_passcode
 from clipboard import Clipboard
 
 

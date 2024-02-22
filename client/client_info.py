@@ -4,11 +4,12 @@ Defines the ClientInfo class which encapsulates client information
 
 
 from clipboard import Clipboard
-from get_client_name import get_client_name
+from utils import get_client_name
 
 
 class ClientInfo:
     def __init__(self):
+        """Instantiate a ClientInfo object"""
         self.is_connected = False
         self.is_connecting = False
         self.is_online = False

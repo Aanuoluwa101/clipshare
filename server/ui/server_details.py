@@ -1,8 +1,21 @@
+"""Defines the ServerDetails class which is a popup 
+   that shows server details
+"""
+
 import tkinter as tk
 from tkinter import ttk
 
 class ServerDetails():
     def __init__(self, root, name, address, passcode, on_close):
+        """Initializes a ServerDetails instance
+           
+        Parameters:
+        root (tk.Tk): root element of the UI
+        name (str): name of the server
+        address (str): IP address of the server
+        passcode (str): passcode of the server
+        on_close: a callback function for closing the popup
+        """
         self.server_details = tk.Toplevel(root)
         self.server_details.title(name)
         self.server_details.configure(background="#2c3e4c")
@@ -27,4 +40,5 @@ class ServerDetails():
         server_passcode.grid(row=1, sticky="w", padx=10, pady=10)
 
     def destroy(self):
+        """Closes the popup"""
         self.server_details.destroy()
