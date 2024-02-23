@@ -85,7 +85,7 @@ class UI:
             # run itself again after 1000 m
         finally:
             #print("update")
-            self.root.after(1000, self.update)
+            self.root.after(500, self.update)
 
 
     def on_close(self):

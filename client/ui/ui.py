@@ -94,7 +94,7 @@ class UI:
             print(e)
             pass
         finally:
-            self.root.after(300, self.update) 
+            self.root.after(500, self.update) 
 
     def on_close(self):
         """Callback function for closing the UI"""

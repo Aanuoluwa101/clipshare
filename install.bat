@@ -1,7 +1,7 @@
 @echo off
 setlocal enabledelayedexpansion
 
-echo installing dependencies
+echo Installing Dependencies. Please wait...
 REM Install dependencies
 pip install -r requirements.txt
 
@@ -34,10 +34,8 @@ echo %name% > "%installation_path%%name_file%"
 REM Delete the other folder
 if /i "%installation_type%" equ "client" (
     rd /s /q .\server\
-    echo Deleting the server directory
 ) else (
     rd /s /q .\client\
-    echo Deleting the client directory
 )
 
 echo Installation completed for %installation_type%: %name%
