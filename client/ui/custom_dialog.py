@@ -7,7 +7,7 @@ from tkinter import simpledialog
 class CustomDialog(simpledialog.Dialog):
     def __init__(self, root, base_ip):
         """Initalizes a CustomDialog instance
-        
+
         Parameters:
         root (tk.Tk): root element of the UI
         base_ip (str): base IP address

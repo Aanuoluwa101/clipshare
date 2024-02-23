@@ -6,6 +6,7 @@ from server_info import ServerInfo
 from client_info import ClientInfo
 import threading
 
+
 class State:
     def __init__(self):
         """Instantiates a State object"""
@@ -22,7 +23,7 @@ class State:
     def gateway(self):
         """Retrieves the gateway (wifi) ip of the app"""
         return self.__gateway
-    
+
     @gateway.setter
     def gateway(self, gateway):
         """Updates the gateway (wifi) ip of the app"""

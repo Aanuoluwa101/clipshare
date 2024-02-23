@@ -10,7 +10,7 @@ class ClientInfo:
         """Instantiate a ClientI object"""
         self.address = None
         self.name = None
-        
+
 
 if __name__ == "__main__":
     client_info = ClientInfo()

@@ -2,7 +2,6 @@
 Defines the ClientInfo class which encapsulates client information
 """
 
-
 from clipboard import Clipboard
 from utils import get_client_name
 
@@ -18,7 +17,7 @@ class ClientInfo:
         self.name = get_client_name()
         self.base_ip = None
 
-   
+
 if __name__ == "__main__":
     client_info = ClientInfo()
     print(client_info.clipboard)

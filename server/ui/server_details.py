@@ -5,10 +5,11 @@
 import tkinter as tk
 from tkinter import ttk
 
-class ServerDetails():
+
+class ServerDetails:
     def __init__(self, root, name, address, passcode, on_close):
         """Initializes a ServerDetails instance
-           
+
         Parameters:
         root (tk.Tk): root element of the UI
         name (str): name of the server
@@ -33,10 +34,22 @@ class ServerDetails():
         self.server_details.geometry(f"+{x}+{y}")
 
         # Add labels to the Toplevel window
-        server_address = ttk.Label(self.server_details, text=f"Address:    {address}", background="#2c3e4c", font=("Helvetica", 9, "bold"), foreground="white")
+        server_address = ttk.Label(
+            self.server_details,
+            text=f"Address:    {address}",
+            background="#2c3e4c",
+            font=("Helvetica", 9, "bold"),
+            foreground="white",
+        )
         server_address.grid(row=0, padx=10, pady=10)
 
-        server_passcode = ttk.Label(self.server_details, text=f"Passcode:  {passcode}", background="#2c3e4c", font=("Helvetica", 9, "bold"), foreground="white")
+        server_passcode = ttk.Label(
+            self.server_details,
+            text=f"Passcode:  {passcode}",
+            background="#2c3e4c",
+            font=("Helvetica", 9, "bold"),
+            foreground="white",
+        )
         server_passcode.grid(row=1, sticky="w", padx=10, pady=10)
 
     def destroy(self):

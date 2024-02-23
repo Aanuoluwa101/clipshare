@@ -21,14 +21,13 @@ if __name__ == "__main__":
 
     state_manager_thread = threading.Thread(target=state_manager, args=(state,))
     ui_thread = threading.Thread(target=start_ui, args=(state,))
-    
+
     ui_thread.start()
     state_manager_thread.start()
-
 
     while True:
         if state.exit_signal.is_set():
             time.sleep(3)
             os.remove(lock)
             break
-        continue 
+        continue

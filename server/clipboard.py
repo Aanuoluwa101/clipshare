@@ -2,6 +2,7 @@
 
 import pyperclip
 
+
 class Clipboard:
     NEW = "New"
     SENT = "Sent"
@@ -17,16 +18,15 @@ class Clipboard:
     def content(self):
         """Retrieves the current content of the clipboard"""
         return self.__content
-    
+
     # @content.setter
     # def content(self, content):
     #     self.__content = content
     #     self.send_state = Clipboard.NEW
 
-    
     def update_clipboard(self, new_content, send_state=None):
         """Updates the content of the clipboard and its send state
-        
+
         Parameters:
         new_content (str): new clipboard content
         send_state (str): state of the clipboard. NEW, SENT or RECEIVED

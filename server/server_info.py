@@ -5,6 +5,7 @@ Defines the ServerInfo class which encapsulates server information
 from clipboard import Clipboard
 from utils import get_server_name
 
+
 class ServerInfo:
     def __init__(self):
         """Instantiates a ServerInfo object"""
@@ -15,7 +16,7 @@ class ServerInfo:
         self.name = get_server_name()
         self.clipboard = Clipboard()
         self.passcode = None
-    
+
 
 if __name__ == "__main__":
     server_info = ServerInfo()

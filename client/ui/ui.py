@@ -11,7 +11,6 @@ from .is_valid_ip import is_valid_ip
 from .custom_dialog import CustomDialog
 
 
-
 CONNECTED = "Online, Connected"
 DISCONNECTED = "Online, Not Connected"
 OFFLINE = "Offline"
@@ -20,10 +19,11 @@ DISCONNECT = "Disconnect"
 CONNECTING = "Connecting..."
 CONNECT = "Connect"
 
+
 class UI:
     def __init__(self, state):
         """Initializes a UI instance
-        
+
         Parameters:
         state (State): a state instance containing app data
         """
@@ -44,44 +44,49 @@ class UI:
     def update(self):
         """Updates all components of the UI with the app's current state"""
         try:
-            #HEADER
-            #client name
+            # HEADER
+            # client name
             self.header.client_name.config(text=self.state.client.name)
 
-            #connect button
+            # connect button
             if self.state.client.is_connected:
                 connect_button_text = DISCONNECT
             elif self.state.client.is_connecting and not self.state.client.is_connected:
-                 connect_button_text = CONNECTING
+                connect_button_text = CONNECTING
             else:
                 connect_button_text = CONNECT
             self.header.connect_button.config(text=connect_button_text)
-            
-            #BODY      
-            #error message
+
+            # BODY
+            # error message
             self.body.error_message.config(text=self.state.error_message)
             if self.error_msg_update_count == 5:
                 self.error_msg_update_count = 0
                 self.state.error_message = ""
             self.error_msg_update_count += 1
 
-            #clipboard
+            # clipboard
             clipboard = pyperclip.paste()
-            if clipboard != self.state.client.clipboard.local and clipboard != self.state.client.clipboard.content:
+            if (
+                clipboard != self.state.client.clipboard.local
+                and clipboard != self.state.client.clipboard.content
+            ):
                 self.state.client.clipboard.update_clipboard(clipboard)
                 self.state.client.clipboard.local = clipboard
 
             self.body.clipboard.delete("1.0", tk.END)
             self.body.clipboard.insert("1.0", self.state.client.clipboard.content)
 
-            #clipboard_state
-            self.body.clipboard_state.config(text=self.state.client.clipboard.send_state)
+            # clipboard_state
+            self.body.clipboard_state.config(
+                text=self.state.client.clipboard.send_state
+            )
 
-            #FOOTER
-            #gateway (wifi)
+            # FOOTER
+            # gateway (wifi)
             self.footer.gateway.config(text=f"Wifi {self.state.gateway}")
 
-            #client state
+            # client state
             if not self.state.client.is_online:
                 client_state = OFFLINE
             elif self.state.client.is_connected:
@@ -90,11 +95,11 @@ class UI:
                 client_state = DISCONNECTED
             self.footer.client_state.config(text=client_state)
 
-        except Exception as e: 
+        except Exception as e:
             print(e)
             pass
         finally:
-            self.root.after(500, self.update) 
+            self.root.after(500, self.update)
 
     def on_close(self):
         """Callback function for closing the UI"""
@@ -122,7 +127,7 @@ class UI:
                 self.state.error_message = "Invalid IP"
             elif not result[1]:
                 self.state.error_message = "Enter a valid passcode"
-            
+
             else:
                 if self.state.client.is_online:
                     self.state.server.address = result[0]
@@ -134,16 +139,16 @@ class UI:
             self.state.error_message = "Offline. Connect to a wifi"
         else:
             self.state.shutdown_signal.set()
-    
+
     def connect_popup(self, base_ip):
         """Creates a custom connect dialog box
-        
+
         Parameters:
         base_ip (str): the base IP address
         """
-        dialog_box =  CustomDialog(self.root, base_ip)
+        dialog_box = CustomDialog(self.root, base_ip)
         return dialog_box.result
-    
+
     def start(self):
         """Starts the UI"""
         self.update()
@@ -154,6 +159,3 @@ def start_ui(state):
     """Function to be run by the state manager as the UI thread"""
     ui = UI(state)
     ui.start()
-
-
-
