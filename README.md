@@ -7,6 +7,11 @@ A taste of the hither-thither magic
 
 This application serves as both a showcase of technical proficiency and a solution to a personal challenge – the need for efficient text sharing between two PCs. While its primary purpose is to demonstrate capabilities, **Clipshare** also addresses a common concern among developers who frequently copy text between multiple machines.
 
+## GUI
+![Server](https://i.imgur.com/KuFLZNv.png   )
+
+![Client](https://i.imgur.com/O1Rg4BQ.png)
+
 ## Dependencies
 
 **Clipshare** is built entirely using Python, making use of various modules for both functionality and the user interface:
@@ -29,6 +34,8 @@ The application follows a Server-Client architecture, with each component consis
 
 - **User Interface (UI)**: Dynamically updates based on the application state, presenting information such as connection status, clipboard content, and error messages.
 
+![architecture](https://i.imgur.com/eRmDWV2.png)
+
 
 ## Design Patterns
 
@@ -48,6 +55,10 @@ The application follows a Server-Client architecture, with each component consis
 
 ## How to Install
 
+### Requirements
+- Python 3
+- Windows OS
+- Both PCs on thesame local network (connected to thesame wifi device)
 #### 1. Clone the Repository
 
 ```bash:
