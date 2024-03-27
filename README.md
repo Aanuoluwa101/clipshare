@@ -1,5 +1,5 @@
 # Clipshare
-A taste of the hither-thither magic
+###### A taste of the hither-thither magic
 
 ## Introduction
 
@@ -52,6 +52,9 @@ The application follows a Server-Client architecture, with each component consis
 1. While building this application, I had three threads. The two I have mentioned above and a third thread that monitors the clipboard for changes and this was an added CPU cost. I realized later that I could perform the check for clipboard changes in the UI's update method. This helped me remove an entire thread from the program and save CPU resources.
 
 2. I had to make a trade-off between having an extremely fast UI and memory consumption. At an update interval of 100 or 200 milliseconds, I noticed the memory usage of the app was as high as 30%. I decided to leave it at 500 milliseconds, and this drastically reduced memory usage to less than 1%.
+
+## Coding Style
+Code conforms to the conventions specified in [PEP 8 - Style Guide for Python Code](https://peps.python.org/pep-0008/)
 
 ## How to Install
 
